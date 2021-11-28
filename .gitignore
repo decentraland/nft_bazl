@@ -1,0 +1,10 @@
+# Dependency directories
+node_modules/
+export/
+bin/
+
+# Files
+.npmrc
+.DS_Store
+.idea/modules.xml
+.idea/vcs.xml
