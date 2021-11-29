@@ -15,7 +15,8 @@ export class VideoFrame extends Entity {
      //Create texture
     const video = clip
     this.videoTexture = new VideoTexture(video)
-    this.videoTexture.loop = true
+      this.videoTexture.loop = true
+
 
     const videoMaterial = new Material()
     videoMaterial.roughness = 0.01
@@ -49,7 +50,9 @@ export class VideoFrame extends Entity {
       () => {
         log('Yes')
         prompt.hide()
-        openExternalURL(link)
+        if(link){
+          openExternalURL(link)
+        }
       },
       ui.ButtonStyles.RED
     )
@@ -86,12 +89,12 @@ export class VideoFrame extends Entity {
           videoMaterial.emissiveTexture = this.videoTexture
           videoMaterial.emissiveIntensity = 0.8
           videoMaterial.emissiveColor = Color3.White()
-          this.videoTexture.play()
+          this.videoTexture.playing = true
         },
         onCameraExit: () => {
           videoMaterial.albedoTexture = texture
           videoMaterial.emissiveColor = Color3.Black()
-          this.videoTexture.reset()
+          this.videoTexture.playing = false
         },
         enableDebug: false,
       })

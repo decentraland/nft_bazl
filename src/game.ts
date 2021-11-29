@@ -2,12 +2,60 @@ import resources from "./resources"
 import { videoData } from "./modules/videoData"
 import { basicPicture } from "./modules/pictures"
 import { VideoFrame } from "./modules/videoFrame"
+import * as utils from '@dcl/ecs-scene-utils'
 
+
+Input.instance.subscribe("BUTTON_DOWN", ActionButton.PRIMARY, false, ()=>{
+  log('position', Camera.instance.position)
+})
 
 
 const building = new Entity()
 building.addComponent(new GLTFShape('models/building.glb'))
 engine.addEntity(building)
+
+
+let livetexture = new VideoTexture(new VideoClip("https://dclstreams.com/hosted/live/nftbazl/index.m3u8"))
+let livescreen = new Entity()
+livescreen.addComponent(new GLTFShape("models/vidFrame1024x1024.glb"))
+livescreen.addComponent( new Transform({ position: new Vector3(25.5, 7, 43.8), scale: new Vector3(0.6, 0.6, 0.5), rotation: Quaternion.Euler(-15, 0, 0)}))
+livescreen.addComponent(new utils.TriggerComponent(new utils.TriggerBoxShape(new Vector3(30,30,15), new Vector3(0, -7, -15)), {
+  onCameraEnter: () => {
+    videoMaterial.albedoTexture = livetexture
+    videoMaterial.emissiveTexture = livetexture
+    videoMaterial.emissiveIntensity = 0.8
+    videoMaterial.emissiveColor = Color3.White()
+    livetexture.playing = true
+  },
+  onCameraExit: () => {
+    livetexture.playing = false
+    let clip = new VideoTexture(new VideoClip(""))
+    videoMaterial.albedoTexture = clip
+    videoMaterial.emissiveTexture = clip
+    videoMaterial.emissiveColor = Color3.Black()
+
+  },
+  enableDebug: false,
+}))
+engine.addEntity(livescreen)
+
+const videoMaterial = new Material()
+videoMaterial.roughness = 0.01
+videoMaterial.albedoTexture = livetexture
+
+const videoPlane = new Entity()
+videoPlane.addComponent(new PlaneShape())
+videoPlane.addComponent(
+  new Transform({
+    position: new Vector3(0, 0, 0),
+    rotation: Quaternion.Euler(0, 180, 0),
+    scale: new Vector3(12.1, 7, 1),
+  })
+)
+videoPlane.addComponent(videoMaterial)
+videoPlane.setParent(livescreen)
+
+
 
 // Videos
 for (let i = 0; i < videoData.length; i++) {
@@ -24,6 +72,8 @@ for (let i = 0; i < videoData.length; i++) {
       videoData[i].link,
     )
   }
+
+  
 
 
 
