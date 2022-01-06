@@ -463,5 +463,21 @@ export const videoData = [
     artist: 'by Shoeuzi',
     link: "https://nft.elitium.io/Shoeuzi/Point-N-Shoot-by-shoeuzi-x-Okaymojo",
   },
+
+  //Financial Disruption
+  {
+    frame: new GLTFShape("models/frame.glb"),
+    frameSize: new Vector3(1, 1, 1),
+    still: new Texture("images/FinancialDisruption.jpg"),
+    thumbNail: ('images/FinancialDisruption_thumb.jpg'),
+    video: new VideoClip("https://player.vimeo.com/external/662221196.m3u8?s=4b38af9a4ebf9c80bf4dca74735b1bd3c556fbee"),
+    transform: new Transform({position: new Vector3(29.3,1.9,32.91), rotation: Quaternion.Euler(0,180,0), scale: new Vector3(4.6,2.57,1)}),
+    trigger: new utils.TriggerBoxShape(new Vector3(5, 4, 4), new Vector3(0,-0.5, 2)),
+    title: "Financial Disruption",
+    artist: 'by TRAN$PARENT',
+    link: "https://nft.elitium.io/Transparent/Financial-Disruption",
+  },
+
+
    
 ]
